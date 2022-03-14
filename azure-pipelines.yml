@@ -7,13 +7,23 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'windows-2022'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  disable.coverage.autogenerate: 'true'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: DotNetCoreCLI@2
+  displayName: 'Restore nuget packages'
+  inputs:
+    command: 'restore'
+    projects: '$(solution)'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: CmdLine@2
+  displayName: 'Restore tools'
+  inputs:
+    script: |
+     dotnet tool restore
