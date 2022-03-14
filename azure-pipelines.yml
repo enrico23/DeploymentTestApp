@@ -5,25 +5,10 @@
 
 trigger:
 - main
+stages:
+ - stage: Build
+   jobs:
+   - job: Build
 
 pool:
   vmImage: 'windows-2022'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  disable.coverage.autogenerate: 'true'
-
-steps:
-- task: DotNetCoreCLI@2
-  displayName: 'Restore nuget packages'
-  inputs:
-    command: 'restore'
-    projects: '$(solution)'
-
-- task: CmdLine@2
-  displayName: 'Restore tools'
-  inputs:
-    script: |
-     dotnet tool restore
