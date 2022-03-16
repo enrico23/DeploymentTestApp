@@ -7,11 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'windows-2022'
-
-variables:
-  buildConfiguration: 'Release'
-
+  name: DemoPool
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- powershell: 'get-childitem -path env:*'
+  displayName: 'Dump Environments variables'
