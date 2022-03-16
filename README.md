@@ -1,3 +1,3 @@
 # DeploymentTestApp
 
-Trying deployment with azure
+Replace token during deployment
