@@ -7,9 +7,15 @@ trigger:
 - main
 
 pool:
-  name: Azure Pipelines
+  name: DemoPool
+
+variables:
+  runEndToEnd: 'false'
+
+# ---------------------------------
+
 stages:
-- stage: PreBuildStage
+- stage: 🏗 Prebuild Stage
   displayName: Pre Build
   dependsOn: []
 
@@ -18,7 +24,7 @@ stages:
     displayName: Hello World
     steps:
     - task: PowerShell@2
-      displayName: Dump Environments variables
+      displayName: Hello World
       inputs:
         targetType: inline
         script: Write-Host 'Hello, World!'
