@@ -5,7 +5,7 @@ pool:
   name: DemoPool
 
 variables:
-  runEndToEnd: 'false'
+  runEndToEnd: 'true'
 
 # ---------------------------------
 
