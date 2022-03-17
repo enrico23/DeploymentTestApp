@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: DemoPool
+  name: inherited
 stages:
 - stage: PreBuildStage
   displayName: Pre Build
