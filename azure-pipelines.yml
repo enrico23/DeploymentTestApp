@@ -2,6 +2,7 @@ trigger:
 - main
 
 pool:
+  name: DemoPool
   vmImage: 'windows-2022'
 
 variables:
@@ -28,8 +29,8 @@ stages:
 
 - stage: EndToEndTestsStage
   displayName: 🤖 Run End to End tests
-  dependsOn: [ 'PreBuildStage' ]
-  condition: and(eq(variables.runEndToEnd, 'true'), succeeded('PreBuildStage'))
+  dependsOn: [ 'BuildStage' ]
+  condition: and(eq(variables.runEndToEnd, 'true'), succeeded('BuildStage'))
   
   jobs:
   - job: Feedback
