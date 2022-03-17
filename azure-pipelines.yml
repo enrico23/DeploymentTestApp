@@ -3,6 +3,7 @@ trigger:
 
 pool:
   name: DemoPool
+  vmImage: 'windows-2022'
 
 variables:
   runEndToEnd: 'true'
@@ -10,8 +11,8 @@ variables:
 # ---------------------------------
 
 stages:
-- stage: PreBuildStage
-  displayName:  🏗 Prebuild Stage
+- stage: BuildStage
+  displayName:  🏗 Stage
   dependsOn: []
 
   jobs:
