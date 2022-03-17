@@ -2,7 +2,6 @@ trigger:
 - main
 
 pool:
-  name: DemoPool
   vmImage: 'windows-2022'
 
 variables:
