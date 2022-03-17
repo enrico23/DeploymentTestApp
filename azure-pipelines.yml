@@ -8,6 +8,17 @@ trigger:
 
 pool:
   name: DemoPool
-steps:
-- powershell: 'get-childitem -path env:*'
-  displayName: 'Dump Environments variables'
+stages:
+- stage: PreBuildStage
+  displayName: Pre Build
+  dependsOn: []
+
+  jobs:
+  - job: HelloWorld
+    displayName: Hello World
+    steps:
+    - task: PowerShell@2
+      displayName: Dump Environments variables
+      inputs:
+        targetType: inline
+        script: Write-Host 'Hello, World!'
