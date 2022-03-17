@@ -15,8 +15,8 @@ variables:
 # ---------------------------------
 
 stages:
-- stage: 🏗 Prebuild Stage
-  displayName: Pre Build
+- stage: PreBuildStage
+  displayName:  🏗 Prebuild Stage
   dependsOn: []
 
   jobs:
