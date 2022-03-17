@@ -1,8 +1,3 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - main
 
@@ -27,4 +22,21 @@ stages:
       displayName: Hello World
       inputs:
         targetType: inline
-        script: Write-Host 'Hello, World!'
+        script: Write-Host 'Hello, World from pre build stage!'
+
+# ---------------------------------
+
+- stage: EndToEndTestsStage
+  displayName: 🤖 Run End to End tests
+  dependsOn: [ 'BuildStage' ]
+  condition: and(eq(variables.runEndToEnd, 'true'), succeeded('PreBuildStage'))
+  
+  jobs:
+  - job: Feedback
+    displayName: Feedback
+    steps:
+    - task: PowerShell@2
+      displayName: Feedback
+      inputs:
+        targetType: inline
+        script: Write-Host 'Hello, World from end 2 end stage!'
