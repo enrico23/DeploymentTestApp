@@ -28,7 +28,7 @@ stages:
 
 - stage: EndToEndTestsStage
   displayName: 🤖 Run End to End tests
-  dependsOn: [ 'BuildStage' ]
+  dependsOn: [ 'PreBuildStage' ]
   condition: and(eq(variables.runEndToEnd, 'true'), succeeded('PreBuildStage'))
   
   jobs:
