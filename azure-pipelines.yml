@@ -24,6 +24,22 @@ stages:
       inputs:
         targetType: inline
         script: Write-Host 'Hello, World from pre build stage!'
+# ---------------------------------
+
+- stage: IntegrationTestsStage
+  displayName: 🧪 Run integration tests
+  dependsOn: [ 'BuildStage' ]
+  condition: succeeded('BuildStage')
+
+  jobs:
+  - job: FeedbackIntegrationTests
+    displayName: Feedback Integration Tests
+    steps:
+    - task: PowerShell@2
+      displayName: Feedback
+      inputs:
+        targetType: inline
+        script: Write-Host 'Hello, World from Integration Tests stage!'
 
 # ---------------------------------
 
