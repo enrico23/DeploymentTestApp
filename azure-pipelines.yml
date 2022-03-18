@@ -12,7 +12,7 @@ variables:
 
 stages:
 - stage: BuildStage
-  displayName:  🏗 Stage
+  displayName:  🏗 Build Stage
   dependsOn: []
 
   jobs:
