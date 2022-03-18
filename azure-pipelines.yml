@@ -24,6 +24,7 @@ stages:
   dependsOn: []
 
   jobs:
+  # this will create an error
   - job: HelloWorld
     displayName: Hello World
     steps:
@@ -32,6 +33,17 @@ stages:
       inputs:
         targetType: inline
         script: Write-Host 'Hello
+
+  # This job creates a work item, and only runs if the previous job failed
+  - job: ErrorHandler
+    dependsOn: HelloWorld
+    condition: failed()
+    steps: 
+    - task: PowerShell@2
+      displayName: Error Handler Feedback
+      inputs:
+        targetType: inline
+        script: Write-Host 'Error on Hello world Job'
 # ---------------------------------
 
 - stage: IntegrationTestsStage
