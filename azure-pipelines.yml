@@ -17,6 +17,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
+  runEndToEnd: 'true'
   isPullRequest: eq(variables['Build.Reason'], 'PullRequest')
 # ---------------------------------
 
