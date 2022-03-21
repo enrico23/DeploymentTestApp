@@ -7,7 +7,9 @@ parameters:
   default: false
 
 trigger:
-- main
+  branches:
+    include:
+    - main
 
 pool:
   name: DemoPool
