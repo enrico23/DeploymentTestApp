@@ -7,6 +7,7 @@ parameters:
   default: false
 
 trigger:
+  batch: true
   branches:
     include:
     - main
