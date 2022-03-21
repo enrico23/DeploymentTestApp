@@ -37,7 +37,7 @@ stages:
         targetType: inline
         script: Write-Host 'Hello world form Build Stage!'
     - script: |
-        echo ${{variables['Build.Reason']}}
+        echo ${{ne(variables['Build.Reason'], 'PullRequest')}}
 
   # This job creates a work item, and only runs if the previous job failed
   - job: ErrorHandler
