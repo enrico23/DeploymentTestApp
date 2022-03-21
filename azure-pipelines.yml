@@ -36,6 +36,8 @@ stages:
       inputs:
         targetType: inline
         script: Write-Host 'Hello world form Build Stage!'
+    - script: |
+        echo ${{variables['Build.Reason']}}
 
   # This job creates a work item, and only runs if the previous job failed
   - job: ErrorHandler
@@ -69,7 +71,11 @@ stages:
 - stage: EndToEndTestsStage
   displayName: 🤖 Run End to End tests
   dependsOn: [ 'BuildStage' ]
-  condition: and(eq(variables.runEndToEnd, 'true'), succeeded('BuildStage'))
+  condition: |
+   and(
+     eq(variables.runEndToEnd, 'true'), 
+     succeeded('BuildStage')
+     )
   
   jobs:
   - job: Feedback
