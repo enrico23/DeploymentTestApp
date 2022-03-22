@@ -14,18 +14,6 @@ variables:
 # ---------------------------------
 
 stages:
-- stage: PreBuildStage
-  displayName: Pre Build Stage
-  dependsOn: []
-
-  jobs:
-    - job: pre_build_job
-      displayName: Pre build job
-      steps:
-        - checkout: none
-
-# ---------------------------------    
-
 - stage: BuildStage
   displayName:  🏗 Build Stage
   dependsOn: []
@@ -35,7 +23,6 @@ stages:
   - job: HelloWorld
     displayName: Hello World
     steps:
-    - bash: exit 1 
     - script: |
         echo "Build reason: ${{variables['Build.Reason']}}"
         echo "Run e2e tests? ${{variables['runEndToEnd']}}"
@@ -61,6 +48,7 @@ stages:
   - job: FeedbackIntegrationTests
     displayName: Feedback Integration Tests
     steps:
+    - bash: exit 1 
     - task: PowerShell@2
       displayName: Feedback
       inputs:
