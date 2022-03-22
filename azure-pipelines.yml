@@ -31,7 +31,7 @@ stages:
       displayName: Pre build job
       steps:
         - checkout: none
-        
+
 # ---------------------------------    
 
 - stage: BuildStage
@@ -100,7 +100,7 @@ stages:
 - stage: ResultStage
   displayName: 🚀 Build Result
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
-  condition: and(always())
+  condition: always()
   
   jobs:
   - job: ResultJob
