@@ -44,7 +44,8 @@ stages:
     steps:
     - script: |
         echo "Build reason: ${{variables['Build.Reason']}}"
-        echo ${{variables['runEndToEnd']}}
+        echo "Is it a Pull Request? ${{variables['runEndToEnd']}}"
+        echo ${{not(variables['runEndToEnd'])}}
 
   # This job creates a work item, and only runs if the previous job failed
   - job: ErrorHandler
