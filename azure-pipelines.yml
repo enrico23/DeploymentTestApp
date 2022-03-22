@@ -88,6 +88,6 @@ stages:
     steps:
     - checkout: none
     - bash: |
-        echo "test"
+        echo "test 222"
       displayName: Fail build if partially successful
       
