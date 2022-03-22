@@ -1,11 +1,3 @@
-# When manually running the pipeline, you can select whether it
-# succeeds or fails.
-parameters:
-- name: succeed
-  displayName: Succeed or fail
-  type: boolean
-  default: false
-
 trigger:
   batch: true
   branches:
@@ -89,6 +81,7 @@ stages:
   - job: Feedback
     displayName: Feedback
     steps:
+    - bash: exit 1 
     - task: PowerShell@2
       displayName: Feedback
       inputs:
