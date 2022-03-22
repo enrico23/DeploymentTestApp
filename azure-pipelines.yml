@@ -26,7 +26,7 @@ stages:
     - script: |
         echo "Build reason: ${{variables['Build.Reason']}}"
         echo "Run e2e tests? ${{variables['runEndToEnd']}}"
-
+        
   # This job creates a work item, and only runs if the previous job failed
   - job: ErrorHandler
     dependsOn: HelloWorld
@@ -49,6 +49,7 @@ stages:
     displayName: Feedback Integration Tests
     steps:
     - bash: exit 1 
+    - bash: echo AGENT_JOBSTATUS = $AGENT_JOBSTATUS
     - task: PowerShell@2
       displayName: Feedback
       inputs:
@@ -70,6 +71,7 @@ stages:
   - job: Feedback
     displayName: Feedback
     steps:
+    - bash: echo AGENT_JOBSTATUS = $AGENT_JOBSTATUS
     - task: PowerShell@2
       displayName: Feedback
       inputs:
@@ -85,7 +87,7 @@ stages:
   
   jobs:
   - job: ResultJob
-    displayName: 🚀 Result 
+    displayName: 🚀 Build Results
     steps:
     - checkout: none
     - bash: |
