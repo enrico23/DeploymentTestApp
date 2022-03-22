@@ -17,11 +17,22 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  runEndToEnd: 'true'
+  runEndToEnd:  ${{eq(variables['Build.Reason'], 'PullRequest')}}
 
 # ---------------------------------
 
 stages:
+- stage: PreBuildStage
+  displayName: Pre Build Stage
+  dependsOn: []
+
+  jobs:
+    - job: pre_build_job
+      displayName: Pre build job
+      steps:
+        - checkout: none
+        
+
 - stage: BuildStage
   displayName:  🏗 Build Stage
   dependsOn: []
@@ -33,7 +44,7 @@ stages:
     steps:
     - script: |
         echo "Build reason: ${{variables['Build.Reason']}}"
-        echo "Is it a pull request? ${{eq(variables['Build.Reason'], 'PullRequest')}}"
+        echo "Is it a pull request? ${{runEndToEnd}}"
 
   # This job creates a work item, and only runs if the previous job failed
   - job: ErrorHandler
