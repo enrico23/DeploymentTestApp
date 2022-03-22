@@ -87,7 +87,7 @@ stages:
     displayName: 🚀 Build Results
     steps:
     - checkout: none
-    - bash: |
-        echo ${{variables['Agent.JobStatus']}}
+    - script: |
+        echo "Status: ${{variables['Agent.JobStatus']}}"
       displayName: Fail build if partially successful
       
