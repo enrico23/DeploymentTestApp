@@ -88,6 +88,6 @@ stages:
     steps:
     - checkout: none
     - bash: |
-        echo "test 222"
+        echo ${{variables['Agent.JobStatus']}}
       displayName: Fail build if partially successful
       
