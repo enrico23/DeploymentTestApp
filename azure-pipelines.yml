@@ -97,7 +97,11 @@ stages:
   
   jobs:
   - job: ResultJob
-    displayName: 🚀 Artifacts are ready
+    displayName: 🚀 Result 
     steps:
     - checkout: none
-    - script: echo "Publish was already done"
+    - bash: |
+        echo AGENT_JOBSTATUS = $AGENT_JOBSTATUS
+        if [[ "$AGENT_JOBSTATUS" == "SucceededWithIssues" ]]; then exit 1; fi
+      displayName: Fail build if partially successful
+      
