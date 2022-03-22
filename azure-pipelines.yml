@@ -44,6 +44,7 @@ stages:
     steps:
     - script: |
         echo "Build reason: ${{variables['Build.Reason']}}"
+        echo runEndToEnd
 
   # This job creates a work item, and only runs if the previous job failed
   - job: ErrorHandler
