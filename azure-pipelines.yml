@@ -32,6 +32,7 @@ stages:
       steps:
         - checkout: none
         
+# ---------------------------------    
 
 - stage: BuildStage
   displayName:  🏗 Build Stage
@@ -93,3 +94,17 @@ stages:
       inputs:
         targetType: inline
         script: Write-Host 'Hello, World from end 2 end stage!'
+
+# ---------------------------------
+
+- stage: ResultStage
+  displayName: 🚀 Build Result
+  dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
+  condition: and(always())
+  
+  jobs:
+  - job: ResultJob
+    displayName: 🚀 Artifacts are ready
+    steps:
+    - checkout: none
+    - script: echo "Publish was already done"
