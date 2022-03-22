@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  runEndToEnd: $ne(variables['Build.Reason'], 'PullRequest')
+  runEndToEnd: $[ne(variables['Build.Reason'], 'PullRequest')]
 
 # ---------------------------------
 
@@ -27,19 +27,8 @@ stages:
         echo "Build reason: ${{variables['Build.Reason']}}"
         echo "Run e2e tests? ${{variables['runEndToEnd']}}"
         
-  # This job creates a work item, and only runs if the previous job failed
-  - job: ErrorHandler
-    dependsOn: HelloWorld
-    condition: failed()
-    steps: 
-    - task: PowerShell@2
-      displayName: Error Handler Feedback
-      inputs:
-        targetType: inline
-        script: Write-Host 'Error on Hello world Job'
-
 # ---------------------------------
-  
+
 - stage: ResultStage
   displayName: 🚀 Build Result
   dependsOn: [ 'BuildStage' ]
@@ -51,6 +40,6 @@ stages:
     steps:
     - checkout: none
     - script: |
-        echo "Status: ${{variables['Agent.JobStatus']}}"
+        echo "test"
       displayName: Fail build if partially successful
       
