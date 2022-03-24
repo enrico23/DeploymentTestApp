@@ -73,11 +73,12 @@ stages:
   condition: succeededOrFailed()
   jobs:
   - job: ResultJobFailed
+    
     displayName: |
-      if(ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'))
-        💥 Failed
-      else
-        🚀 Succesful
+      ${{if(ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'))}}
+      💥 Failed
+      ${{else}}
+      🚀 Succesful
     condition: ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
     steps:
     - checkout: none
