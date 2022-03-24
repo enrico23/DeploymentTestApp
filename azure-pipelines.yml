@@ -79,7 +79,7 @@ stages:
       
   - job: ResultJob
     displayName: 🚀 Build Results
-    dependsOn: and(in(dependencies.EndToEndTestsStage.A1.result, 'Succeeded'))
+    dependsOn: in(dependencies.EndToEndTestsStage.A1.result, 'Succeeded')
     steps:
     - checkout: none
     - script: echo "Successful"
