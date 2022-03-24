@@ -72,11 +72,18 @@ stages:
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: succeededOrFailed()
   jobs:
-  - job: ResultJob
+  - job: ResultJobFailed
     displayName: 🚀 Build Results
     condition: ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
     steps:
     - checkout: none
     - script: echo "Build failed"
       displayName: Build Failed
+  - job: ResultJobSuccessful
+    displayName: 🚀 Build Results
+    condition: in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
+    steps:
+      - checkout: none
+      - script: echo "Build Successful"
+        displayName: Build Succssfull
       
