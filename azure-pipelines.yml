@@ -76,9 +76,9 @@ stages:
     
     displayName: 💥 Failed
     condition: |
-      and( 
-        ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        ne(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
+      or( 
+        in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Failed'),
+        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Failed')
       )
     steps:
     - checkout: none
