@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  runEndToEnd: $[ne(variables['Build.Reason'], 'PullRequest')]
+  runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
 
 # ---------------------------------
 
@@ -26,20 +26,62 @@ stages:
     - script: |
         echo "Build reason: ${{variables['Build.Reason']}}"
         echo "Run e2e tests? ${{variables['runEndToEnd']}}"
+
+# ---------------------------------
+
+- stage: IntegrationTestsStage
+  displayName: 🧪 Run integration tests
+  dependsOn: [ 'BuildStage' ]
+  condition: succeeded('BuildStage')
+
+  jobs:
+  - job: FeedbackIntegrationTests
+    displayName: Feedback Integration Tests
+    steps:
+    - task: PowerShell@2
+      displayName: Feedback
+      inputs:
+        targetType: inline
+        script: Write-Host 'Hello, World from Integration Tests stage!'
+
+#---------------------------------
+
+- stage: EndToEndTestsStage
+  displayName: 🤖 Run End to End tests
+  dependsOn: [ 'BuildStage' ]
+  condition: |
+    and(
+      eq(variables.runEndToEnd, 'true'), 
+      succeeded('BuildStage')
+      )
+    
+  jobs:
+  - job: Feedback
+    displayName: Feedback
+    steps:
+    - bash: exit 1
+    - task: PowerShell@2
+      displayName: Feedback
+      inputs:
+        targetType: inline
+        script: Write-Host 'Hello, World from end 2 end stage!'         
         
 # ---------------------------------
 
 - stage: ResultStage
   displayName: 🚀 Build Result
-  dependsOn: [ 'BuildStage' ]
-  condition: always()
-  
+  dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
+  condition: |
+      and(
+        in(dependencies.IntegrationTestsStage.result, 'Succeeded')
+        in(dependencies.IntegrationTestsStage.result, 'Succeeded')
+      )
   jobs:
   - job: ResultJob
     displayName: 🚀 Build Results
     steps:
     - checkout: none
     - script: |
-        echo "test"
+        echo "Test"
       displayName: Fail build if partially successful
       
