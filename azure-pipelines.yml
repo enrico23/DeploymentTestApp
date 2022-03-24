@@ -72,12 +72,7 @@ stages:
   displayName: 🚀 Build Result
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: |
-      if(
-          and(
-            in(dependencies.IntegrationTestsStage.result, 'Succeeded')
-            in(dependencies.EndToEndTestsStage.result, 'Succeeded')
-        )
-      )
+    succeededOrFailed()
   jobs:
   - job: ResultJob
     displayName: 🚀 Build Results
