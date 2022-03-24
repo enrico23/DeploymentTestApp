@@ -73,6 +73,11 @@ stages:
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: succeededOrFailed()
   jobs:
+  - job: Start
+    steps:
+    - checkout: none
+    - script: echo "started"
+      
   - job: ResultJob
     displayName: 🚀 Build Results
     dependsOn: and(in(dependencies.EndToEndTestsStage.Feedback.result, 'Succeeded'))
