@@ -75,14 +75,20 @@ stages:
   - job: ResultJobFailed
     
     displayName: 💥 Failed
-    condition: ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
+    condition: |
+      and( 
+        ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
+      )
     steps:
     - checkout: none
     - script: echo "Build failed"
     - bash: exit 1
   - job: ResultJobSuccessful
     displayName: 🚀 Succesful
-    condition: in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
+    condition: |
+      and(
+        in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
+      )
     steps:
       - checkout: none
       - script: echo "Build Successful"
