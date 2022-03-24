@@ -38,7 +38,6 @@ stages:
   - job: FeedbackIntegrationTests
     displayName: Feedback Integration Tests
     steps:
-    - bash: exit 1
     - task: PowerShell@2
       displayName: Feedback
       inputs:
@@ -68,19 +67,19 @@ stages:
 # ---------------------------------
 
 - stage: ResultStage
-  displayName: 🚀 Build Result
+  displayName: 🚀 Build Results
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: succeededOrFailed()
   jobs:
   - job: ResultJobFailed
-    displayName: 🚀 Build Results
+    displayName: 💥 Failed
     condition: ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
     steps:
     - checkout: none
     - script: echo "Build failed"
       displayName: Build Failed
   - job: ResultJobSuccessful
-    displayName: 🚀 Build Results
+    displayName: 🚀 Succesful
     condition: in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
     steps:
       - checkout: none
