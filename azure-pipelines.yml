@@ -74,9 +74,9 @@ stages:
   jobs:
   - job: ResultJobFailed
     displayName: |
-      {{if(ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'))}}
+      if(ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'))
         💥 Failed
-      {{else}}
+      else
         🚀 Succesful
     condition: ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
     steps:
