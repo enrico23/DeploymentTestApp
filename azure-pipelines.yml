@@ -75,9 +75,9 @@ stages:
   jobs:
   - job: ResultJob
     displayName: 🚀 Build Results
+    dependsOn: and(in(dependencies.EndToEndTestsStage.Feedback.result, 'Succeeded'))
     steps:
     - checkout: none
-    - script: |
-        echo ${{in(dependencies.EndToEndTestsStage.Feedback.result, 'Succeeded')}}
-      displayName: Fail build if partially successful
+    - script: echo "Successful"
+      displayName: Build Successful
       
