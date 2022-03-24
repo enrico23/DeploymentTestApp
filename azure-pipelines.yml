@@ -57,11 +57,10 @@ stages:
       )
     
   jobs:
-  - job: Feedback
-    displayName: Feedback
+  - job: A1
     steps:
     - task: PowerShell@2
-      displayName: Feedback
+      displayName: A1
       inputs:
         targetType: inline
         script: Write-Host 'Hello, World from end 2 end stage!'         
@@ -80,7 +79,7 @@ stages:
       
   - job: ResultJob
     displayName: 🚀 Build Results
-    dependsOn: and(in(dependencies.EndToEndTestsStage.Feedback.result, 'Succeeded'))
+    dependsOn: and(in(dependencies.EndToEndTestsStage.A1.result, 'Succeeded'))
     steps:
     - checkout: none
     - script: echo "Successful"
