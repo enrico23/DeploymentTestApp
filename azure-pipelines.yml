@@ -16,10 +16,10 @@ stages:
     jobs:
       - job: Job1
         steps:
-          - pwsh: echo "Job1"
+         - bash: echo "Job1"
       - job: Job2
         steps:
-          - pwsh: write-error "Job2 error"
+          - bash: write-error "Job2 error"
 
   - stage: Stage2
     dependsOn: Stage1
@@ -28,8 +28,8 @@ stages:
       - job: Job3
         condition: in(stageDependencies.Stage1.Job1.result, 'Succeeded')
         steps:
-          - pwsh: echo "Job3"
+          - bash: echo "Job3"
       - job: Job4
         condition: in(stageDependencies.Stage1.result, 'Succeeded')
         steps:
-          - pwsh: echo "Job4"
+          - bash: echo "Job4"
