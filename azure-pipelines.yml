@@ -78,6 +78,6 @@ stages:
     steps:
     - checkout: none
     - script: |
-        echo $[stageDependencies.EndToEndTestsStage]
+        echo ${{stageDependencies.EndToEndTestsStage.Feedback.result}}
       displayName: Fail build if partially successful
       
