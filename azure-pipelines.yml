@@ -57,7 +57,7 @@ stages:
       )
     
   jobs:
-  - job: Feedback
+  - job: FeedbackEndToEndTests
     steps:
     - task: PowerShell@2
       displayName: Feedback
@@ -77,7 +77,8 @@ stages:
     displayName: 💥 Failed
     condition: |
       and( 
-        ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
+        ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+        ne(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
       )
     steps:
     - checkout: none
@@ -87,7 +88,8 @@ stages:
     displayName: 🚀 Succesful
     condition: |
       and(
-        in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')
+        in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
       )
     steps:
       - checkout: none
