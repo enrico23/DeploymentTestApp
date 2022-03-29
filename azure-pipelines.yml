@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
+  runEndToEnd: 'true'
 
 # ---------------------------------
 
@@ -58,6 +58,7 @@ stages:
   jobs:
   - job: FeedbackEndToEndTests
     steps:
+    - bash: exit 1
     - task: PowerShell@2
       displayName: Feedback
       inputs:
@@ -76,8 +77,11 @@ stages:
     displayName: 💥 Failed
     condition: |
       or( 
-        ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        ne(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
+        notIn(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+        and(
+          eq(variables['runEndToEnd'], 'true'),
+          notIn(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
+        )
       )
     steps:
     - checkout: none
@@ -87,8 +91,11 @@ stages:
     displayName: 🚀 Succesful
     condition: |
       and(
-        in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
+        in(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
+        or(
+          eq(variables['runEndToEnd'], 'false'),
+          in(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
+        )
       )
     steps:
       - checkout: none
