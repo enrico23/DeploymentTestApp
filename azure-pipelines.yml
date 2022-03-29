@@ -86,7 +86,7 @@ stages:
     - script: echo "Build failed"
     - bash: exit 1
   - job: ResultJobSuccessful
-    displayName: 🚀 Succesful
+    displayName: 🚀 Successful
     condition: |
       and(
         in(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
