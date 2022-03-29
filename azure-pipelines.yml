@@ -72,23 +72,23 @@ stages:
   condition: succeededOrFailed()
   jobs:
   - job: ResultJobFailed
+    
     displayName: 💥 Failed
     condition: |
-      or(
-        notIn(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
-        notIn(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
+      or( 
+        ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+        ne(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
       )
     steps:
     - checkout: none
     - script: echo "Build failed"
     - bash: exit 1
-
   - job: ResultJobSuccessful
-    displayName: 🚀 Successful
+    displayName: 🚀 Succesful
     condition: |
       and(
-        in(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
-        in(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
+        in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
       )
     steps:
       - checkout: none
