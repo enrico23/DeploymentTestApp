@@ -91,10 +91,7 @@ stages:
     condition: |
       and(
         in(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
-        or(
-          eq(variables['runEndToEnd'], 'false'),
-          in(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
-        )
+        in(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
       )
     steps:
       - checkout: none
