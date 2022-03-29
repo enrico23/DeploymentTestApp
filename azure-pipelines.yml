@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
+  runEndToEnd: ${{ne(variables['Build.Reason'], 'BatchedCI')}}
 
 # ---------------------------------
 
