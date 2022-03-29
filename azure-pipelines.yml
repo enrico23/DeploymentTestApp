@@ -38,6 +38,7 @@ stages:
   - job: FeedbackIntegrationTests
     displayName: Feedback Integration Tests
     steps:
+    - bash: exit 1
     - task: PowerShell@2
       displayName: Feedback
       inputs:
@@ -58,6 +59,7 @@ stages:
   jobs:
   - job: FeedbackEndToEndTests
     steps:
+    - bash: exit 1
     - task: PowerShell@2
       displayName: Feedback
       inputs:
@@ -71,9 +73,22 @@ stages:
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: succeededOrFailed()
   jobs:
- 
+  - job: ResultJobFailed
+    displayName: 💥 Failed
+    condition: |
+      or( 
+        notIn(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+        and(
+          eq(variables['runEndToEnd'], 'true'),
+          notIn(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
+        )
+      )
+    steps:
+    - checkout: none
+    - script: echo "Build failed"
+    - bash: exit 1
   - job: ResultJobSuccessful
-    displayName: 🚀 Successful
+    displayName: 🚀 Succesful
     condition: |
       and(
         in(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
@@ -86,10 +101,3 @@ stages:
       - checkout: none
       - script: echo "Build Successful"
   
-  - job: ResultJobFailed
-    displayName: 💥 Failed
-    condition: notIn(stageDependencies.ResultStage.ResultJobSuccessful.result, 'Succeeded')
-    steps:
-      - checkout: none
-      - script: echo "Build failed"
-      - bash: exit 1
