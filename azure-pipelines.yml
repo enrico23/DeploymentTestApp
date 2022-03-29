@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  runEndToEnd: 'true'
+  runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
 
 # ---------------------------------
 
@@ -71,16 +71,11 @@ stages:
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: succeededOrFailed()
   jobs:
-  - job: Pre-result
-    steps:
-    - script: |
-          echo "${{notIn(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')}}"
-          echo "${{notIn(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')}}"
   - job: ResultJobFailed
     displayName: 💥 Failed
     condition: |
-      or( 
-        notIn(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+      or(
+        notIn(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
         and(
           eq(variables['runEndToEnd'], 'true'),
           notIn(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
@@ -90,7 +85,7 @@ stages:
     - checkout: none
     - script: echo "Build failed"
     - bash: exit 1
-  
+
   - job: ResultJobSuccessful
     displayName: 🚀 Successful
     condition: |
