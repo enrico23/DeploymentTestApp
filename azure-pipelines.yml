@@ -87,8 +87,8 @@ stages:
     displayName: 🚀 Succesful
     condition: |
       and(
-        in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
+        eq(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
+        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded', 'Skipped')
       )
     steps:
       - checkout: none
