@@ -73,7 +73,7 @@ stages:
   jobs:
   - job: ResultJobFailed
     
-    displayName: 💥 Failed
+    displayName: 💥 Failedx
     condition: |
       or( 
         ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
