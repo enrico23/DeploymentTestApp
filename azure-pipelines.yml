@@ -71,6 +71,12 @@ stages:
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: succeededOrFailed()
   jobs:
+  - job: Pre-result
+    steps:
+    - script: |
+          echo "FeedbackIntegrationTests is not succeded: ${{notIn(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded')]}}"
+          echo "Run e2e tests? ${{variables['runEndToEnd']}}"
+          echo "EndToEndTestsStage e2e_tests_finished is not succeeded ${{notIn(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')}}"
   - job: ResultJobFailed
     displayName: 💥 Failed
     condition: |
@@ -85,6 +91,7 @@ stages:
     - checkout: none
     - script: echo "Build failed"
     - bash: exit 1
+  
   - job: ResultJobSuccessful
     displayName: 🚀 Successful
     condition: |
