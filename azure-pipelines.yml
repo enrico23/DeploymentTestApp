@@ -9,8 +9,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  # runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
-  runEndToEnd: ${{ne(variables['Build.Reason'], 'BatchedCI')}}
+  runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
 
 # ---------------------------------
 
@@ -84,16 +83,12 @@ stages:
     - checkout: none
     - script: echo "Build failed"
     - bash: exit 1
-    
   - job: ResultJobSuccessful
     displayName: 🚀 Succesful
     condition: |
       and(
         in(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        or(
-          eq(variables['runEndToEnd'], 'false'),
-          in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
-        )
+        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
       )
     steps:
       - checkout: none
