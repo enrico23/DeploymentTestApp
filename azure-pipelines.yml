@@ -88,7 +88,7 @@ stages:
   - job: ResultJobSuccessful
     displayName: 🚀 Succesful
     condition: |
-      ne(stageDependencies.ResultStage.ResultJobFailed.result, 'Skipped'),
+      ne(stageDependencies.ResultStage.ResultJobFailed.result, 'Skipped')
     steps:
       - checkout: none
       - script: echo "Build Successful"
