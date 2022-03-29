@@ -58,6 +58,7 @@ stages:
   jobs:
   - job: FeedbackEndToEndTests
     steps:
+    - bash: exit 1
     - task: PowerShell@2
       displayName: Feedback
       inputs:
