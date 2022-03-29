@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  runEndToEnd: 'true'
+  runEndToEnd: 'false'
 
 # ---------------------------------
 
@@ -98,4 +98,4 @@ stages:
     steps:
       - checkout: none
       - script: echo "Build Successful"
-  
+      
