@@ -89,7 +89,7 @@ stages:
   
   - job: ResultJobFailed
     displayName: 💥 Failed
-    condition: in(stageDependencies.ResultStage.ResultJobSuccessful.result, 'Skipped')
+    condition: notIn(stageDependencies.ResultStage.ResultJobSuccessful.result, 'Succeeded')
     steps:
       - checkout: none
       - script: echo "Build failed"
