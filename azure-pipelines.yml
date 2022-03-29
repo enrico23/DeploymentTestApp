@@ -78,7 +78,7 @@ stages:
     condition: |
       or( 
         ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        ne(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded'),
+        ne(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded')
       )
     steps:
     - checkout: none
