@@ -35,7 +35,7 @@ stages:
   condition: succeeded('BuildStage')
 
   jobs:
-  - job: FeedbackIntegrationTests
+  - job: integration_tests
     displayName: Feedback Integration Tests
     steps:
     - task: PowerShell@2
@@ -56,7 +56,7 @@ stages:
       )
     
   jobs:
-  - job: FeedbackEndToEndTests
+  - job: e2e_tests_finished
     steps:
     - task: PowerShell@2
       displayName: Feedback
@@ -71,26 +71,24 @@ stages:
   dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
   condition: succeededOrFailed()
   jobs:
-  - job: ResultJobFailed
-    
-    displayName: 💥 Failedx
+  - job: ResultJobSuccessful
+    displayName: ✔️ Succesful Build
     condition: |
-      or( 
-        ne(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        notIn(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded', 'Skipped')
+      and( 
+        in(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
+        or(
+          eq(variables.runEndToEnd, 'false'),
+          in(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
+        )
       )
     steps:
     - checkout: none
-    - script: echo "Build failed"
-    - bash: exit 1
-  - job: ResultJobSuccessful
-    displayName: 🚀 Succesful
-    condition: |
-      and(
-        eq(stageDependencies.IntegrationTestsStage.FeedbackIntegrationTests.result, 'Succeeded'),
-        in(stageDependencies.EndToEndTestsStage.FeedbackEndToEndTests.result, 'Succeeded', 'Skipped')
-      )
+
+  - job: ResultJobFailed
+    displayName: ❌ Failed Build
+    dependsOn: ResultJobSuccessful
+    condition: in(dependencies.ResultJobSuccessful.result, 'Skipped')
     steps:
       - checkout: none
-      - script: echo "Build Successful"
+      - bash: exit 1
       
