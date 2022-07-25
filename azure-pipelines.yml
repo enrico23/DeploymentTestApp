@@ -23,16 +23,9 @@ stages:
     displayName: Hello World
     steps:
       - task: PowerShell@2
-        name: preprare_file_list_pr_comments
-        displayName: 'Prepare file list for PR comments'
         inputs:
-          pwsh: true
-          targetType: "inline"
+          targetType: 'inline'
           script: |
-            echo "Getting list of files changed."
-            $commitHash = $(Build.SourceVersion)
-            $files=$(git diff-tree --no-commit-id --name-status -r $(Build.SourceVersion))
-            $temp=$files-split ' '
-            $count=$temp.Length
-            echo "Total changed $count files $commitHash"
+            
+            Write-Host "Hello World"
 
