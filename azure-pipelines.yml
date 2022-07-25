@@ -29,7 +29,7 @@ stages:
             
             echo "Getting list of files changed."
             $branchSource = "$(Build.SourceBranch)"
-            $branchSourcePath = Build.SourceBranchName
+            $branchSourcePath = $(Build.SourceBranchName)
             echo "Branch $(Build.SourceBranchName)"
             echo "Branch: $(Build.SourceBranch)"
             $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $branchSourcePath)
