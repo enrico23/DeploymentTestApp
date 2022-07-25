@@ -26,6 +26,6 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-          echo "Getting list of files changed."
-          echo "Total changed files"
+            echo "Getting list of files changed."
+            echo "Total changed files $(Build.SourceVersion)"
 
