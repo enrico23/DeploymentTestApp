@@ -30,5 +30,10 @@ stages:
             git diff HEAD^ HEAD --name-status
             $fileCount = (Get-Content ${{ variables.pullRequestFileListPath }}).Length
             echo "Total changed $fileCount files"
-            echo "Github Repository: ${{ github.repository }}"
-            echo "Github PR number: ${{ github.event.pull_request.number }}"
+            echo "Repository Id: ${{Build.Repository.ID}}"
+            echo "Repository Name: ${{Build.Repository.Name}}"
+            echo "Repository Provider: ${{Build.Repository.Provider}}"
+            echo "Hash or SHA: {{Build.SourceVersion}}"
+            echo "Source Version Message{{Build.SourceVersionMessage}}"
+            echo "PR ID: {{System.PullRequest.PullRequestId}}"
+            echo "PR PullRequestNumber: {{System.PullRequest.PullRequestId}}"
