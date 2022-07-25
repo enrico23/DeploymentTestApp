@@ -30,8 +30,8 @@ stages:
             echo "Getting list of files changed."
             $branchSource = "$(Build.SourceBranch)"
             $branchSourcePath = $branchSource -replace "refs/heads/", ""
-            echo "Branch: $branchSourcePath"
-            echo "System.PullRequest.SourceBranch: $(System.PullRequest.SourceBranch)"
+            echo "Branch: $(Build.SourceBranch)"
+            echo "Branch 2: $(System.PullRequest.SourceBranch)"
             $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $(branchSourcePath))
            
             if($files)
