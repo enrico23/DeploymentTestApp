@@ -26,8 +26,21 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            echo "Getting list of files changed."
-           
-           
-            echo "Branch: $(Build.SourceBranch)"
             
+            echo "Getting list of files changed."
+            echo "Branch: $(Build.SourceBranch)"
+            $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $(Build.SourceBranch))
+           
+            if($files)
+            {
+              foreach ($file in $files) {
+                Write-Verbose "$file"
+              }
+            }
+            else
+            {
+              Write-Warning "Found no files."
+            }
+      
+            echo "Total changed $fileCount files"
+
