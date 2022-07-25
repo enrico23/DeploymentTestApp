@@ -31,6 +31,7 @@ stages:
             echo "Repository Id: ${{Build.Repository.ID}}"
             echo "Repository Name: ${{Build.Repository.Name}}"
             echo "Repository Provider: ${{Build.Repository.Provider}}"
+            echo "Branch: {{Build.SourceBranch}}"
             echo "Hash or SHA: {{Build.SourceVersion}}"
             echo "Source Version Message{{Build.SourceVersionMessage}}"
             echo "PR ID: {{System.PullRequest.PullRequestId}}"
