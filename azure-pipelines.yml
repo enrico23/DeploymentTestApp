@@ -27,8 +27,8 @@ stages:
           targetType: 'inline'
           script: |
             echo "Getting list of files changed."
-            git diff HEAD^ HEAD --name-status
-            $fileCount = (Get-Content ${{ variables.pullRequestFileListPath }}).Length
+            $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD master)
+            echo "$files"
             echo "Total changed $fileCount files"
             echo "Repository Id: ${{Build.Repository.ID}}"
             echo "Repository Name: ${{Build.Repository.Name}}"
