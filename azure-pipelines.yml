@@ -32,7 +32,7 @@ stages:
             echo "Getting list of files changed."
             $commitHash = $(Build.SourceVersion)
             $files=$(git diff-tree --no-commit-id --name-status -r $(Build.SourceVersion))
-            $temp=$files -split ' '
+            $temp=$files-split ' '
             $count=$temp.Length
             echo "Total changed $count files $commitHash"
 
