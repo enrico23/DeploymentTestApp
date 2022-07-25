@@ -29,6 +29,6 @@ stages:
             echo "Getting list of files changed."
             echo "Total changed $fileCount files"
            
-            echo "Branch: {{Build.SourceBranch}}"
-            echo "Hash or SHA: {{Build.SourceVersion}}"
+            echo "Branch: ${{Build.SourceBranch}}"
+            echo "Hash or SHA: ${{Build.SourceVersion}}"
             
