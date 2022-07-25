@@ -27,7 +27,7 @@ stages:
           targetType: 'inline'
           script: |
             echo "Getting list of files changed."
-            git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) > ${{ parameters.pullRequestFileListPath }}
+            git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) > ${{ variables.pullRequestFileListPath }}
             $fileCount = (Get-Content ${{ variables.pullRequestFileListPath }}).Length
             echo "Total changed $fileCount files"
 
