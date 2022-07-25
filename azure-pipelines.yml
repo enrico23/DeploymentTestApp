@@ -21,14 +21,15 @@ stages:
   jobs:
   - job: HelloWorld
     displayName: Hello World
+    parameters:
+      pullRequestFileListPath: $(Agent.TempDirectory)\pullRequestFileList.json
     steps:
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
           script: |
             echo "Getting list of files changed."
-            $files=$(git diff-tree --no-commit-id --name-status -r $(Build.SourceVersion))
-            $temp=$files -split ' '
-            $count=$temp.Length
-            echo "Total changed $count files"
+            git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) > ${{ parameters.pullRequestFileListPath }}
+            $fileCount = (Get-Content ${{ parameters.pullRequestFileListPath }}).Length
+            echo "Total changed $fileCount files"
 
