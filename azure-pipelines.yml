@@ -26,6 +26,9 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            echo "Getting list of files changed."
-            echo "Total changed files $(Build.SourceVersion)"
+          echo "Getting list of files changed."
+          $files=$(git diff-tree --no-commit-id --name-status -r $(Build.SourceVersion))
+          $temp=$files-split ' '
+          $fileCount=$temp.Length
+          echo "Total changed $fileCount files "
 
