@@ -27,6 +27,5 @@ stages:
           targetType: 'inline'
           script: |
             echo "Getting list of files changed."
-            $commitHash = $(Build.SourceVersion)
-            echo "Total changed files $commitHash"
+            echo "Total changed files $(Build.SourceVersion)"
 
