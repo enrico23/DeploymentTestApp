@@ -31,7 +31,7 @@ stages:
             $branchSource = "$(Build.SourceBranch)"
             $branchSourcePath = $branchSource -replace "refs/heads/", ""
             echo "Branch: $(Build.SourceBranch)"
-            $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $(branchSourcePath))
+            $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $branchSourcePath)
            
             if($files)
             {
