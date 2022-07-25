@@ -27,7 +27,7 @@ stages:
           targetType: 'inline'
           script: |
             echo "Getting list of files changed."
-            git diff HEAD^ HEAD > ${{ variables.pullRequestFileListPath }}
+            git diff HEAD^ HEAD --name-status
             $fileCount = (Get-Content ${{ variables.pullRequestFileListPath }}).Length
             echo "Total changed $fileCount files"
             echo "Github Repository: ${{ github.repository }}"
