@@ -28,6 +28,5 @@ stages:
           script: |
             
             echo "Getting list of files changed."
-            $targetBranch = "${{System.PullRequest.TargetBranch}}"
-            $targetBranchPath = $targetBranch -replace "refs/heads/", ""
-            echo "Target branch path $targetBranchPath "
+            $targetBranch = "$(System.PullRequest.TargetBranch)"
+         
