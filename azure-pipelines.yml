@@ -10,7 +10,7 @@ pool:
 
 variables:
   runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
-
+  pullRequestFileListPath: $(Agent.TempDirectory)\pullRequestFileList.json
 # ---------------------------------
 
 stages:
@@ -21,8 +21,6 @@ stages:
   jobs:
   - job: HelloWorld
     displayName: Hello World
-    parameters:
-      pullRequestFileListPath: $(Agent.TempDirectory)\pullRequestFileList.json
     steps:
       - task: PowerShell@2
         inputs:
@@ -30,6 +28,6 @@ stages:
           script: |
             echo "Getting list of files changed."
             git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) > ${{ parameters.pullRequestFileListPath }}
-            $fileCount = (Get-Content ${{ parameters.pullRequestFileListPath }}).Length
+            $fileCount = (Get-Content ${{ variables.pullRequestFileListPath }}).Length
             echo "Total changed $fileCount files"
 
