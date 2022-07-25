@@ -28,8 +28,10 @@ stages:
           script: |
             
             echo "Getting list of files changed."
-            echo "Branch: $(Build.SourceBranch)"
-            $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $(Build.SourceBranch))
+            $branchSource = "$(Build.SourceBranch)"
+            $branchSourcePath = $branchSource -replace "refs/heads/", ""
+            echo "Branch: ${{branchSourcePath}}"
+            $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $branchSourcePath)
            
             if($files)
             {
