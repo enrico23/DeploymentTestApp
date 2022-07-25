@@ -24,15 +24,16 @@ stages:
     displayName: Hello World
     steps:
       - task: PowerShell@2
-        name: preprare_fileList
-        displayName: 'Prepare data for ownership report'
-        inputs:
-          pwsh: true
-          targetType: "inline"
-          script: |
-            echo "Getting file-list from git."
-            git ls-tree -r HEAD --name-only > ${{ parameters.ownershipFileListPath }}
-            $fileCount = (Get-Content ${{ parameters.ownershipFileListPath }}).Length
-            echo "Number of files in list: ${fileCount}"
-            echo "Getting file list from Pull Request"
+      name: preprare_file_list_pr_comments
+      displayName: 'Prepare file list for PR comments'
+      inputs:
+        pwsh: true
+        targetType: "inline"
+        script: |
+          echo "Getting list of files changed."
+          $commitHash = $(Build.SourceVersion)
+          $prFiles=$(git diff-tree --no-commit-id --name-status -r $(Build.SourceVersion))
+          $temp=$prFiles -split ' '
+          $prFilesCount=$temp.Length
+          echo "Total changed $prFilesCount files $commitHash"
 
