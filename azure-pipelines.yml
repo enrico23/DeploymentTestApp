@@ -27,7 +27,5 @@ stages:
           targetType: 'inline'
           script: |
           echo "Getting list of files changed."
-          $changedFiles = git diff --name-status HEAD HEAD^
-        
-          echo "Total changed files:$changedFiles"
+          echo "Total changed files"
 
