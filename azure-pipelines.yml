@@ -30,4 +30,5 @@ stages:
             git diff HEAD^ HEAD > ${{ variables.pullRequestFileListPath }}
             $fileCount = (Get-Content ${{ variables.pullRequestFileListPath }}).Length
             echo "Total changed $fileCount files"
-
+            echo "Github Repository: ${{ github.repository }}"
+            echo "Github PR number: ${{ github.event.pull_request.number }}"
