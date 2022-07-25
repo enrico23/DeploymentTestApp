@@ -26,6 +26,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            
-            Write-Host "Hello World"
+            echo "Getting list of files changed."
+            $commitHash = $(Build.SourceVersion)
+            echo "Total changed files $commitHash"
 
