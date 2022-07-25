@@ -23,72 +23,16 @@ stages:
   - job: HelloWorld
     displayName: Hello World
     steps:
-    - script: |
-        echo "Build reason: ${{variables['Build.Reason']}}"
-        echo "Run e2e tests? ${{variables['runEndToEnd']}}"
+      - task: PowerShell@2
+        name: preprare_fileList
+        displayName: 'Prepare data for ownership report'
+        inputs:
+          pwsh: true
+          targetType: "inline"
+          script: |
+            echo "Getting file-list from git."
+            git ls-tree -r HEAD --name-only > ${{ parameters.ownershipFileListPath }}
+            $fileCount = (Get-Content ${{ parameters.ownershipFileListPath }}).Length
+            echo "Number of files in list: ${fileCount}"
+            echo "Getting file list from Pull Request"
 
-# ---------------------------------
-
-- stage: IntegrationTestsStage
-  displayName: 🧪 Run integration tests
-  dependsOn: [ 'BuildStage' ]
-  condition: succeeded('BuildStage')
-
-  jobs:
-  - job: integration_tests
-    displayName: Feedback Integration Tests
-    steps:
-    - task: PowerShell@2
-      displayName: Feedback
-      inputs:
-        targetType: inline
-        script: Write-Host 'Hello, World from Integration Tests stage!'
-
-#---------------------------------
-
-- stage: EndToEndTestsStage
-  displayName: 🤖 Run End to End tests
-  dependsOn: [ 'BuildStage' ]
-  condition: |
-    and(
-      eq(variables.runEndToEnd, 'true'), 
-      succeeded('BuildStage')
-      )
-    
-  jobs:
-  - job: e2e_tests_finished
-    steps:
-    - task: PowerShell@2
-      displayName: Feedback
-      inputs:
-        targetType: inline
-        script: Write-Host 'Hello, World from end 2 end stage!'         
-        
-# ---------------------------------
-
-- stage: ResultStage
-  displayName: 🚀 Build Results
-  dependsOn: [ 'IntegrationTestsStage', 'EndToEndTestsStage' ]
-  condition: succeededOrFailed()
-  jobs:
-  - job: ResultJobSuccessful
-    displayName: ✔️ Succesful Build
-    condition: |
-      and( 
-        in(stageDependencies.IntegrationTestsStage.integration_tests.result, 'Succeeded'),
-        or(
-          eq(variables.runEndToEnd, 'false'),
-          in(stageDependencies.EndToEndTestsStage.e2e_tests_finished.result, 'Succeeded')
-        )
-      )
-    steps:
-    - checkout: none
-
-  - job: ResultJobFailed
-    displayName: ❌ Failed Build
-    dependsOn: ResultJobSuccessful
-    condition: in(dependencies.ResultJobSuccessful.result, 'Skipped')
-    steps:
-      - checkout: none
-      - bash: exit 1
-      
