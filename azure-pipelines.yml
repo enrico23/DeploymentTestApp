@@ -28,22 +28,6 @@ stages:
           script: |
             
             echo "Getting list of files changed."
-            $targetBranch = $(System.PullRequest.TargetBranch)
+            $targetBranch = "${{System.PullRequest.TargetBranch}}"
             $targetBranchPath = $targetBranch -replace "refs/heads/", ""
             echo "Target branch path $targetBranchPath "
-        
-            $files = git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD $targetBranchPath)
-           
-            if($files)
-            {
-              foreach ($file in $files) {
-                Write-Verbose "$file"
-              }
-            }
-            else
-            {
-              Write-Warning "Found no files."
-            }
-      
-            echo "Total changed $fileCount files"
-
