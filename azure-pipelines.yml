@@ -29,7 +29,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              echo "test: $(variables.isPullRequest)"
+              echo $(variables.isPullRequest)
               echo "Total changed $count files"
               echo "Commit hash $(Build.SourceVersion)"
               echo "PullRequest Target branch: $(System.PullRequest.TargetBranch)"
