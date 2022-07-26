@@ -4,6 +4,9 @@ trigger:
     include:
     - main
 
+pr:
+    - main
+      
 pool:
   name: DemoPool
   vmImage: 'windows-2022'
