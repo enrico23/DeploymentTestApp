@@ -12,7 +12,6 @@ pool:
 variables:
   runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
   pullRequestFileListPath: $(Agent.TempDirectory)\pullRequestFileList.json
-  isPullRequest: ${{eq(variables['Build.Reason'], 'PullRequest')}}
 # ---------------------------------
 
 stages:
@@ -29,7 +28,6 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              echo $(variables.isPullRequest)
               echo "Total changed $count files"
               echo "Commit hash $(Build.SourceVersion)"
               echo "PullRequest Target branch: $(System.PullRequest.TargetBranch)"
