@@ -30,7 +30,7 @@ stages:
               echo "test: $(variables.isPullRequest)"
               echo "Total changed $count files"
               echo "Commit hash $(Build.SourceVersion)"
-              echo "PullRequest Target branch"
+              echo "PullRequest Target branch: $(System.PullRequest.TargetBranch)"
               $files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion))
               $temp=$files -split ' '
               $count=$temp.Length
