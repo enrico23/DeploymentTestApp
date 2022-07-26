@@ -31,8 +31,9 @@ stages:
               echo "Total changed $count files"
               echo "Commit hash $(Build.SourceVersion)"
               $targetBranch= $(System.PullRequest.TargetBranch)
-              echo "PullRequest Target branch: $(targetBranch)"
-              
+              echo $targetBranch
+              $mergeBase = git merge-base FETCH_HEAD System.PullRequest.TargetBranch
+              echo $mergeBase
               $files=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD main))
               $temp=$files -split ' '
               $count=$temp.Length
