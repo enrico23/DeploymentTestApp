@@ -30,5 +30,6 @@ stages:
           script: |
             
             echo "Getting list of files changed."
+            echo "Commit hash $(Build.SourceVersion)"
             $files=  git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion)
             echo $files
