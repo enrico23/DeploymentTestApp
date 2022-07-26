@@ -29,7 +29,9 @@ stages:
           targetType: 'inline'
           script: |
             
-            echo "Getting list of files changed."
+            echo "Total changed $count files"
             echo "Commit hash $(Build.SourceVersion)"
-            $files=  git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion)
-            echo $files
+            $files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion))
+            $temp=$files -split ' '
+            $count=$temp.Length
+            
