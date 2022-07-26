@@ -3,7 +3,8 @@ trigger:
   branches:
     include:
     - main
-
+pr:
+    - main
 pool:
   name: DemoPool
   vmImage: 'windows-2022'
@@ -11,6 +12,7 @@ pool:
 variables:
   runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
   pullRequestFileListPath: $(Agent.TempDirectory)\pullRequestFileList.json
+  isPullRequest: ${{eq(variables['Build.Reason'], 'PullRequest')}}
 # ---------------------------------
 
 stages:
