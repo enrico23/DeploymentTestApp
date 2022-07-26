@@ -3,9 +3,7 @@ trigger:
   branches:
     include:
     - main
-pr:
-    - main
-      
+
 pool:
   name: DemoPool
   vmImage: 'windows-2022'
@@ -13,7 +11,6 @@ pool:
 variables:
   runEndToEnd: ${{ne(variables['Build.Reason'], 'PullRequest')}}
   pullRequestFileListPath: $(Agent.TempDirectory)\pullRequestFileList.json
-  isPullRequest: eq(variables['Build.Reason'], 'PullRequest')
 # ---------------------------------
 
 stages:
@@ -22,18 +19,19 @@ stages:
   dependsOn: []
 
   jobs:
-  - job: HelloWorld
-    condition: eq(variables['Build.Reason'], 'PullRequest')
-    displayName: Hello World
-    steps:
-      - task: PowerShell@2
-        inputs:
-          targetType: 'inline'
-          script: |
-            echo "test: $(variables.isPullRequest)"
-            echo "Total changed $count files"
-            echo "Commit hash $(Build.SourceVersion)"
-            $files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion))
-            $temp=$files -split ' '
-            $count=$temp.Length
-            
+    - job: HelloWorld
+      condition: eq(variables['Build.Reason'], 'PullRequest')
+      displayName: Hello World
+      steps:
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "test: $(variables.isPullRequest)"
+              echo "Total changed $count files"
+              echo "Commit hash $(Build.SourceVersion)"
+              echo "PullRequest Target branch"
+              $files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion))
+              $temp=$files -split ' '
+              $count=$temp.Length
+         
