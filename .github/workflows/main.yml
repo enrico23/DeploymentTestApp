@@ -3,7 +3,9 @@ name: pull-request-changes
 on: 
   pull_request:
     types: [opened]
-
+env:
+    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
 jobs:
   get-pr-changes:
     runs-on: ubuntu-latest
