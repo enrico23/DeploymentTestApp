@@ -19,8 +19,7 @@ jobs:
         echo $files
         $usersObject = ConvertFrom-Json –InputObject $files
         $changedFiles = $usersObject | select -ExpandProperty filename
-        echo $changedFiles
-        echo $files > pull-request-changes.txt
+        echo $changedFiles > pull-request-changes.txt
         
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
