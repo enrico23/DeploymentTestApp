@@ -22,8 +22,8 @@ jobs:
       shell: pwsh
       run: |
         echo "Get Pull Request changes"
-        $files= $(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
-        $usersObject = ConvertFrom-Json –InputObject $files
+        $response = $(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
+        $usersObject = ConvertFrom-Json –InputObject $response
         $changedFiles = $usersObject | select -ExpandProperty filename
         echo $changedFiles
         echo "::set-output name=files::${changedFiles}"
@@ -49,7 +49,7 @@ jobs:
       id: CodeOwnersParser
       shell: pwsh
       run: |
-          $files = "${{ steps.PrCheck.outputs.files }}"
+          $files = "${{ steps.GetPrChanges.outputs.files }}"
           echo $files
           $output = $files | ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > output.txt
           $reportData = (Get-Content ${{ github.workspace }}/output.txt)
