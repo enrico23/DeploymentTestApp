@@ -25,7 +25,7 @@ jobs:
       shell: pwsh
       run: |
         echo "Get Pull Request changes"
-        $files= $(gh api repos/${{ ORGANIZATION }}/${{ REPOSITORY }}/pulls/${{ github.event.pull_request.number }}/files)
+        $files= $(gh api repos/${{ env.ORGANIZATION }}/${{ env.REPOSITORY }}/pulls/${{ github.event.pull_request.number }}/files)
         $usersObject = ConvertFrom-Json –InputObject $files
         $changedFiles = $usersObject | select -ExpandProperty filename
         echo $changedFiles > pull-request-changes.txt
