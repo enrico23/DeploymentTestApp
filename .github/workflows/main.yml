@@ -45,48 +45,48 @@ jobs:
       run: ls
       working-directory: ./tools/ConsoleApp1/bin/Release/net6.0/
 
-    # - name: Run owneship TOOL
-    #   shell: pwsh
-    #   run: |
-    #       echo $env:GITHUB_ACTION_PATH
-    #       $output = & $env:GITHUB_ACTION_PATH/ConsoleApp1 > output.txt
-    #       echo $output
-    #   continue-on-error: false
-    #   working-directory: ./tools/ConsoleApp1/bin/Release/net6.0/
+    - name: Run owneship TOOL
+      id: CodeOwnersParser
+      shell: pwsh
+      run: |
+          $output = & ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > output.txt
+          $reportData = (Get-Content ${{ github.workspace }}/output.txt)
+          echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
+      continue-on-error: false
 
-    # - name: Archive production artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #       name: pull-request-changes
-    #       path: pull-request-changes.txt
-    #       if-no-files-found: warn
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+          name: pull-request-changes
+          path: output.txt
+          if-no-files-found: warn
 
-    # - name: Check if already commented
-    #   uses: peter-evans/find-comment@v1
-    #   id: find-comment
-    #   with:
-    #     issue-number: ${{ github.event.number }}
-    #     comment-author: 'github-actions[bot]'
-    #     body-includes: 'Notifying code owners: '
+    - name: Check if already commented
+      uses: peter-evans/find-comment@v1
+      id: find-comment
+      with:
+        issue-number: ${{ github.event.number }}
+        comment-author: 'github-actions[bot]'
+        body-includes: 'Notifying code owners: '
 
-    # - name: LS
-    #   run: echo ${{ steps.CodeOwnersParser.outputs.owners }}
+    - name: LS
+      run: echo ${{ steps.CodeOwnersParser.outputs.owners }}
 
-    # #If no existing comment exists create a new one if there were any owners found
-    # - name: Create new comment
-    #   if: steps.find-comment.outputs.comment-id == '' && steps.CodeOwnersParser.outputs.owners != ''
-    #   uses: peter-evans/create-or-update-comment@v1
-    #   with:
-    #     issue-number: ${{ github.event.number }}
-    #     body: |
-    #         ${{ steps.CodeOwnersParser.outputs.owners }}
+    #If no existing comment exists create a new one if there were any owners found
+    - name: Create new comment
+      if: steps.find-comment.outputs.comment-id == '' && steps.CodeOwnersParser.outputs.owners != ''
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{ github.event.number }}
+        body: |
+            ${{ steps.CodeOwnersParser.outputs.owners }}
       
-    # #If existing comment was found replace it
-    # - name: Update existing comment
-    #   if: steps.find-comment.outputs.comment-id != '' && steps.CodeOwnersParser.outputs.owners != ''
-    #   uses: peter-evans/create-or-update-comment@v1
-    #   with:
-    #     comment-id: ${{ steps.find-comment.outputs.comment-id }}
-    #     edit-mode: replace
-    #     body: |
-    #       ${{ steps.CodeOwnersParser.outputs.owners }}
+    #If existing comment was found replace it
+    - name: Update existing comment
+      if: steps.find-comment.outputs.comment-id != '' && steps.CodeOwnersParser.outputs.owners != ''
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        comment-id: ${{ steps.find-comment.outputs.comment-id }}
+        edit-mode: replace
+        body: |
+          ${{ steps.CodeOwnersParser.outputs.owners }}
