@@ -4,10 +4,9 @@ on:
   pull_request:
     branches: [main]
 env:
-    MY_GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    DOTNET_VERSION: '6.0.x'
-    BUILD_CONFIGURATION: 'Release'    # set this to the appropriate build configuration
+  MY_GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DOTNET_VERSION: '6.0.x'
 
 jobs:
   get-pr-changes:
