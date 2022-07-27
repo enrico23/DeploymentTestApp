@@ -55,12 +55,12 @@ jobs:
       id: CodeOwnersParser
       shell: pwsh
       run: |
-        $output = & ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > output.txt
-        $reportData = (Get-Content ${{ github.workspace }}/output.txt)
+        $output = & ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > codeowners-report.txt
+        $reportData = (Get-Content ${{ github.workspace }}/codeowners-report.txt)
         echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
       continue-on-error: false
 
-    - name: Archive production artifacts
+    - name: Archive Codeowners Report Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: codeowners-report
