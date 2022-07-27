@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\enrico23\\DeploymentTestApp\\TestApp.csproj": {}
+    "C:\\enrico23\\DeploymentTestApp\\tools\\ConsoleApp1\\ConsoleApp1.csproj": {}
   },
   "projects": {
-    "c:\\enrico23\\DeploymentTestApp\\TestApp.csproj": {
+    "C:\\enrico23\\DeploymentTestApp\\tools\\ConsoleApp1\\ConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\enrico23\\DeploymentTestApp\\TestApp.csproj",
-        "projectName": "TestApp",
-        "projectPath": "c:\\enrico23\\DeploymentTestApp\\TestApp.csproj",
+        "projectUniqueName": "C:\\enrico23\\DeploymentTestApp\\tools\\ConsoleApp1\\ConsoleApp1.csproj",
+        "projectName": "ConsoleApp1",
+        "projectPath": "C:\\enrico23\\DeploymentTestApp\\tools\\ConsoleApp1\\ConsoleApp1.csproj",
         "packagesPath": "C:\\Users\\EnricoAcampora\\.nuget\\packages\\",
-        "outputPath": "c:\\enrico23\\DeploymentTestApp\\obj\\",
+        "outputPath": "C:\\enrico23\\DeploymentTestApp\\tools\\ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -54,9 +54,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
