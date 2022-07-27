@@ -1,0 +1,28 @@
+name: tooling-be.pr-automation-changes
+
+on: 
+  pull_request:
+    types: [opened]
+env:
+  CONTENT: ''
+
+jobs:
+  get-pr-changes:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get PR changes
+      id: GetPrChanges
+      shell: pwsh
+      run: |
+        echo ::set-output name=files::$(gh api repos/MewsSystems/mews/pulls/${{ github.event.pull_request.number }}/files)
+        # The API returns a non-terminating error and the GH workflows are presetting non-terminating
+        # errors to terminating.
+        continue-on-error: true
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+          name: pull-request-changes
+          path: pull-request-changes.txt
+            
+
+
