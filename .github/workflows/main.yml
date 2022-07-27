@@ -29,10 +29,40 @@ jobs:
         $usersObject = ConvertFrom-Json –InputObject $files
         $changedFiles = $usersObject | select -ExpandProperty filename
         echo $changedFiles > pull-request-changes.txt
+        echo "::set-output name=files::${changedFiles}"
         
-    - name: Archive production artifacts
+    - name: Archive Pull Request Artifacts
       uses: actions/upload-artifact@v3
       with:
           name: pull-request-changes
           path: pull-request-changes.txt
           if-no-files-found: warn
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: ./tools/ConsoleApp1
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ./tools/ConsoleApp1
+      
+    - name: Run owneship TOOL
+      id: CodeOwnersParser
+      shell: pwsh
+      run: |
+        $output = & ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > output.txt
+        $reportData = (Get-Content ${{ github.workspace }}/output.txt)
+        echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
+      continue-on-error: false
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: codeowners-report
+        path: codeowners-report.txt
+        if-no-files-found: warn
