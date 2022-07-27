@@ -16,7 +16,7 @@ jobs:
       run: |
         echo "Get Pull Request changes"
         echo ::set-output name=files::$(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
-
+        echo files > pull-request-changes.txt
         
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
