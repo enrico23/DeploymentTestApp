@@ -1,4 +1,4 @@
-name: tooling-be.pr-automation-changes
+name: pull-request-changes
 
 on: 
   pull_request:
