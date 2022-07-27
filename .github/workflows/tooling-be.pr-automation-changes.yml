@@ -3,8 +3,6 @@ name: tooling-be.pr-automation-changes
 on: 
   pull_request:
     types: [opened]
-env:
-  CONTENT: ''
 
 jobs:
   get-pr-changes:
@@ -18,6 +16,8 @@ jobs:
         # The API returns a non-terminating error and the GH workflows are presetting non-terminating
         # errors to terminating.
         continue-on-error: true
+
+        echo "hello"
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
