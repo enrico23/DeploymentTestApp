@@ -15,7 +15,11 @@ jobs:
       shell: pwsh
       run: |
         echo "Get Pull Request changes"
-        echo ::set-output name=files::$(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
+        $files= $(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
+        echo $files
+        $usersObject = ConvertFrom-Json –InputObject $files
+        $changedFiles = $usersObject | select -ExpandProperty filename
+        echo $changedFiles
         echo $files > pull-request-changes.txt
         
     - name: Archive production artifacts
