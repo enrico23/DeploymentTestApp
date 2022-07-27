@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [main]
 env:
+    PROJECT: 'DeploymentTestApp'
+    REPOSITORY: 'DeploymentTestApp'
     MY_GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     DOTNET_VERSION: '6.0.x'
@@ -23,10 +25,11 @@ jobs:
       shell: pwsh
       run: |
         echo "Get Pull Request changes"
-        $files= $(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
+        $files= $(gh api repos/{{ PROJECT }}/{{REPOSITORY}}/pulls/${{ github.event.pull_request.number }}/files)
         $usersObject = ConvertFrom-Json –InputObject $files
         $changedFiles = $usersObject | select -ExpandProperty filename
         echo $changedFiles > pull-request-changes.txt
+        echo "::set-output name=files::${changedFiles}"
         
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
