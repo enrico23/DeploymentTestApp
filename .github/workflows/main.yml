@@ -2,10 +2,10 @@ name: pull-request-changes
 
 on: 
   pull_request:
-    types: [opened]
+    branches: [main]
 env:
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
 jobs:
   get-pr-changes:
     runs-on: ubuntu-latest
