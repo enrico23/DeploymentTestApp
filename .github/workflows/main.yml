@@ -45,11 +45,13 @@ jobs:
       run: ls
       working-directory: ./tools/ConsoleApp1/bin/Release/net6.0/
 
-    - name: Run owneship TOOL
+    - name: Run Codeowners parser
       id: CodeOwnersParser
       shell: pwsh
       run: |
-          $output = & ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > output.txt
+          $files = "${{ steps.PrCheck.outputs.files }}"
+          echo $files
+          $output = $files | ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > output.txt
           $reportData = (Get-Content ${{ github.workspace }}/output.txt)
           echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
       continue-on-error: false
