@@ -18,16 +18,16 @@ jobs:
       with:
          files: tools
 
-    - name: Get PR changes
-      id: GetPrChanges
-      shell: pwsh
-      run: |
-        echo "Get Pull Request changes"
-        $files= $(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
-        $usersObject = ConvertFrom-Json –InputObject $files
-        $changedFiles = $usersObject | select -ExpandProperty filename
-        echo $changedFiles
-        echo "::set-output name=files::${changedFiles}"
+    # - name: Get PR changes
+    #   id: GetPrChanges
+    #   shell: pwsh
+    #   run: |
+    #     echo "Get Pull Request changes"
+    #     $files= $(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
+    #     $usersObject = ConvertFrom-Json –InputObject $files
+    #     $changedFiles = $usersObject | select -ExpandProperty filename
+    #     echo $changedFiles
+    #     echo "::set-output name=files::${changedFiles}"
         
     # - name: Setup .NET Core
     #   uses: actions/setup-dotnet@v1
