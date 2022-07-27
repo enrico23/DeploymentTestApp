@@ -28,22 +28,22 @@ jobs:
         echo $changedFiles
         echo "::set-output name=files::${changedFiles}"
         
-    # - name: Setup .NET Core
-    #   uses: actions/setup-dotnet@v1
-    #   with:
-    #     dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    # - name: Install dependencies
-    #   run: dotnet restore
-    #   working-directory: ./tools/ConsoleApp1
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: ./tools/ConsoleApp1
 
-    # - name: Build
-    #   run: dotnet build --configuration Release --no-restore
-    #   working-directory: ./tools/ConsoleApp1
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ./tools/ConsoleApp1
 
-    # - name: LS
-    #   run: ls
-    #   working-directory: ./tools/ConsoleApp1/bin/Release/net6.0/
+    - name: LS
+      run: ls
+      working-directory: ./tools/ConsoleApp1/bin/Release/net6.0/
 
     # - name: Run owneship TOOL
     #   shell: pwsh
