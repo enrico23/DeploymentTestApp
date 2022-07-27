@@ -12,7 +12,7 @@ jobs:
       id: GetPrChanges
       shell: pwsh
       run: |
-        echo ::set-output name=files::$(gh api repos/MewsSystems/mews/pulls/${{ github.event.pull_request.number }}/files)
+        echo ::set-output name=files::$(gh api repos/enrico23/DeploymentTestApp/pulls/${{ github.event.pull_request.number }}/files)
         # The API returns a non-terminating error and the GH workflows are presetting non-terminating
         # errors to terminating.
         continue-on-error: true
