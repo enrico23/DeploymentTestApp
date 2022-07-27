@@ -23,6 +23,6 @@ jobs:
       with:
           name: pull-request-changes
           path: pull-request-changes.txt
-            
+          if-no-files-found: warn
 
 
