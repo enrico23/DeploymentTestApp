@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: report-tool
-        path: ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1.exe
+        path: ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/*.*
         if-no-files-found: warn
 
   get-pr-changes:
@@ -84,12 +84,12 @@ jobs:
         echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
       continue-on-error: false
 
-    - name: Archive Codeowners Report Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: codeowners-report
-        path: codeowners-report.txt
-        if-no-files-found: warn
+    # - name: Archive Codeowners Report Artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: codeowners-report
+    #     path: codeowners-report.txt
+    #     if-no-files-found: warn
 
   #   - name: Check if already commented
   #     uses: peter-evans/find-comment@v1
