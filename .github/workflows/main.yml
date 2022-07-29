@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: report-tool
-        path: ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1.dll
+        path: ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1.exe
         if-no-files-found: warn
 
   get-pr-changes:
@@ -44,31 +44,33 @@ jobs:
     needs: build-report-tool
     steps:
 
-    - name: Get PR changes
-      id: GetPrChanges
-      shell: pwsh
-      run: |
-        echo "Get Pull Request changes"
-        $files= $(gh api repos/${{ env.ORGANIZATION }}/${{ env.REPOSITORY }}/pulls/${{ github.event.pull_request.number }}/files)
-        $usersObject = ConvertFrom-Json –InputObject $files
-        $changedFiles = $usersObject | select -ExpandProperty filename
-        echo $changedFiles > pull-request-changes.txt
-        echo "::set-output name=files::${changedFiles}"
+    # - name: Get PR changes
+    #   id: GetPrChanges
+    #   shell: pwsh
+    #   run: |
+    #     echo "Get Pull Request changes"
+    #     $files= $(gh api repos/${{ env.ORGANIZATION }}/${{ env.REPOSITORY }}/pulls/${{ github.event.pull_request.number }}/files)
+    #     $usersObject = ConvertFrom-Json –InputObject $files
+    #     $changedFiles = $usersObject | select -ExpandProperty filename
+    #     echo $changedFiles > pull-request-changes.txt
+    #     echo "::set-output name=files::${changedFiles}"
         
-    - name: Archive Pull Request Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-          name: pull-request-changes
-          path: pull-request-changes.txt
-          if-no-files-found: warn
+    # - name: Archive Pull Request Artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #       name: pull-request-changes
+    #       path: pull-request-changes.txt
+    #       if-no-files-found: warn
 
     - name: Download Report Tool
       uses: actions/download-artifact@v3
       with:
         name: report-tool
         path: tools
-        run: |
-          dir
+    
+    - name: Check directory
+      run: |
+        dir
 
     # - name: Run owneship TOOL
     #   id: CodeOwnersParser
@@ -76,7 +78,7 @@ jobs:
     #   run: |
     #     $files = "${{ steps.GetPrChanges.outputs.files }}"
     #     echo $files
-    #     $output = $files | ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > codeowners-report.txt
+    #     $output = $files | ${{ github.workspace }}/tools/ConsoleApp1.exe > codeowners-report.txt
     #     $reportData = (Get-Content ${{ github.workspace }}/codeowners-report.txt)
     #     echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
     #   continue-on-error: false
