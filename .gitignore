@@ -1,0 +1,53 @@
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+out/
+**/bin
+**/obj
+bin/
+obj/
+.env.*
+
+# Visual Studio Code
+.vscode
+
+# Rider
+.idea
+
+# Postgres
+**/pgdata
+**/database/pgdata
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.ncrunchproject
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Test Results
+TestResults
+
+# Visual Studio 2015
+.vs/
+
+# Logs
+Logs/
