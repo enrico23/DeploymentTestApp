@@ -63,28 +63,28 @@ jobs:
           if-no-files-found: warn
 
     - name: Download Report Tool
-    - uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v3
       with:
         name: report-tool
         path: tools
 
-  #   - name: Run owneship TOOL
-  #     id: CodeOwnersParser
-  #     shell: pwsh
-  #     run: |
-  #       $files = "${{ steps.GetPrChanges.outputs.files }}"
-  #       echo $files
-  #       $output = $files | ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > codeowners-report.txt
-  #       $reportData = (Get-Content ${{ github.workspace }}/codeowners-report.txt)
-  #       echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
-  #     continue-on-error: false
+    - name: Run owneship TOOL
+      id: CodeOwnersParser
+      shell: pwsh
+      run: |
+        $files = "${{ steps.GetPrChanges.outputs.files }}"
+        echo $files
+        $output = $files | ${{ github.workspace }}/tools/ConsoleApp1/bin/Release/net6.0/ConsoleApp1 > codeowners-report.txt
+        $reportData = (Get-Content ${{ github.workspace }}/codeowners-report.txt)
+        echo "::set-output name=owners::'Notifying code owners: ${reportData}'"
+      continue-on-error: false
 
-  #   - name: Archive Codeowners Report Artifacts
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: codeowners-report
-  #       path: codeowners-report.txt
-  #       if-no-files-found: warn
+    - name: Archive Codeowners Report Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: codeowners-report
+        path: codeowners-report.txt
+        if-no-files-found: warn
 
   #   - name: Check if already commented
   #     uses: peter-evans/find-comment@v1
