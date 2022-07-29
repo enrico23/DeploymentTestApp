@@ -60,7 +60,7 @@ jobs:
         $changedFiles = $usersObject | select -ExpandProperty filename
         $changedFilesTransfromed = $changedFiles -replace '/','\' | % { "${{ github.workspace }}\"+$_ }
         echo $changedFilesTransfromed
-        echo $changedFiles | $changedFilesTransfromed > pull-request-changes.txt
+        echo $changedFiles + $changedFilesTransfromed > pull-request-changes.txt
         echo "::set-output name=files::${changedFiles}"
         
     - name: Archive Pull Request Artifacts
