@@ -34,9 +34,9 @@ jobs:
 
   get-pr-changes:
     runs-on: windows-latest
+    needs: build
     steps:
     
-
     - name: Get PR changes
       id: GetPrChanges
       shell: pwsh
