@@ -66,12 +66,12 @@ jobs:
         echo $changedFiles > pull-request-changes.txt
         echo "::set-output name=files::${changedFiles}"
         
-    - name: Archive Pull Request Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-          name: pull-request-changes
-          path: pull-request-changes.txt
-          if-no-files-found: warn
+    # - name: Archive Pull Request Artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #       name: pull-request-changes
+    #       path: pull-request-changes.txt
+    #       if-no-files-found: warn
 
     - name: Run owneship TOOL
       id: CodeOwnersParser
