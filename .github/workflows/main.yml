@@ -12,7 +12,7 @@ env:
     BUILD_CONFIGURATION: 'Release'    # set this to the appropriate build configuration
 
 jobs:
-  build-job:
+  build-report-tool:
     runs-on: windows-latest
     steps:
     - name: Checkout files
@@ -34,9 +34,9 @@ jobs:
 
   get-pr-changes:
     runs-on: windows-latest
-    needs: build
+    needs: build-report-tool
     steps:
-    
+
     - name: Get PR changes
       id: GetPrChanges
       shell: pwsh
