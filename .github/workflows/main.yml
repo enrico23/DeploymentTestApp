@@ -44,6 +44,17 @@ jobs:
     needs: build-report-tool
     steps:
 
+    - name: Download Report Tool
+      uses: actions/download-artifact@v3
+      with:
+        name: report-tool
+        path: tools
+    
+    - name: Check directory
+      run: |
+        cd tools
+        dir
+
     # - name: Get PR changes
     #   id: GetPrChanges
     #   shell: pwsh
@@ -62,15 +73,7 @@ jobs:
     #       path: pull-request-changes.txt
     #       if-no-files-found: warn
 
-    - name: Download Report Tool
-      uses: actions/download-artifact@v3
-      with:
-        name: report-tool
-        path: tools
     
-    - name: Check directory
-      run: |
-        dir
 
     # - name: Run owneship TOOL
     #   id: CodeOwnersParser
