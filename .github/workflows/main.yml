@@ -12,13 +12,30 @@ env:
     BUILD_CONFIGURATION: 'Release'    # set this to the appropriate build configuration
 
 jobs:
-  get-pr-changes:
-    runs-on: ubuntu-latest
+  build-job:
+    runs-on: windows-latest
     steps:
     - name: Checkout files
       uses: Bhacaz/checkout-files@v2
       with:
          files: tools
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: ./tools/ConsoleApp1
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ./tools/ConsoleApp1
+
+  get-pr-changes:
+    runs-on: windows-latest
+    steps:
+    
 
     - name: Get PR changes
       id: GetPrChanges
@@ -38,19 +55,6 @@ jobs:
           path: pull-request-changes.txt
           if-no-files-found: warn
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-        
-    - name: Install dependencies
-      run: dotnet restore
-      working-directory: ./tools/ConsoleApp1
-      
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-      working-directory: ./tools/ConsoleApp1
-      
     - name: Run owneship TOOL
       id: CodeOwnersParser
       shell: pwsh
