@@ -9,7 +9,7 @@ env:
     MY_GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     DOTNET_VERSION: '6.0.x'
-    BUILD_CONFIGURATION: 'Release'    # set this to the appropriate build configuration
+    BUILD_CONFIGURATION: 'Release'
 
 jobs:
   build-report-tool:
@@ -58,7 +58,9 @@ jobs:
         $files= $(gh api repos/${{ env.ORGANIZATION }}/${{ env.REPOSITORY }}/pulls/${{ github.event.pull_request.number }}/files)
         $usersObject = ConvertFrom-Json –InputObject $files
         $changedFiles = $usersObject | select -ExpandProperty filename
-        echo $changedFiles > pull-request-changes.txt
+        $changedFilesTransfromed = $changedFiles -replace '/','\' | % { "${{ github.workspace }}\"+$_ }
+        echo $changedFilesTransfromed
+        echo $changedFiles | $changedFilesTransfromed > pull-request-changes.txt
         echo "::set-output name=files::${changedFiles}"
         
     - name: Archive Pull Request Artifacts
